@@ -1,0 +1,140 @@
+{% load static %}
+<html lang="en-US">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Home - Wisdom Pet Medicine</title>
+      <link rel="stylesheet" id="ample-style-css" href="{% static 'style.css' %}" type="text/css" media="all">
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   </head>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script>
+      var t = '';
+      function gText(e) {
+
+        t = (document.all) ? document.selection.createRange().text : document.getSelection();
+
+          console.log(t);
+            document.getElementById('input').value = t
+          var node;
+              if(t) {
+                document.getElementById('input').value = t
+                  node = document.getElementById('if-part');
+                  node.style.visibility = 'visible';
+                  document.getElementById('if-part').style.display='block';
+              }
+              if(!document.getElementById('input').value){
+      node = document.getElementById('if-part');
+          node.style.visibility = 'hidden';
+          document.getElementById('if-part').style.display='hidden';
+      }
+          }
+      // function yText(e) {
+      //   document.getElementById('if-part').style.display='hidden';
+      // }
+      function searchOnclick() {
+        var u = document.getElementById('input').value;
+        $.ajax({
+             url: '/quick_search/',
+             type: 'POST',
+             cache: false,
+             contentType: 'application/json',
+             data: JSON.stringify({
+               "query" : u
+             }),
+             success: function(data){
+               	document.getElementById('id01').style.display='block';
+                 document.getElementById("demo").innerHTML = data;
+             },
+             error: function(error) {
+               console.log(error);
+             }
+         });
+
+      }
+      document.onmouseup = gText;
+      if (!document.all) { document.captureEvents(Event.MOUSEUP);}
+
+   </script>
+   <body class="wide">
+      <div id='if-part' style='visibility: hidden; text-align: center; bottom:0px; width:100%; height:600px; left:0px; right:0px; overflow:hidden;' class="modal" >
+         <div  style='display: inline-block; width:25%' class="modal-content w3-animate-zoom">
+            <span onclick="this.parentElement.parentElement.style.display='none'"
+               class="w3-button w3-large w3-display-topright">&times;</span>
+            <h4 align="center">Search this selection?</h4>
+            <input align="center" style='text-align:center; margin-bottom: 10px; width:100%; font-size:18px' type='text' id='input' />
+            <center><button style='margin-bottom: 10px; font-size: 15px;' onclick="searchOnclick()" type="button" class="btn btn-info btn-rounded">Search</button></center>
+         </div>
+         <div id="id01" class="w3-modal">
+            <div style='text-align: left;' class="w3-modal-content w3-animate-zoom">
+               <header class="w3-container">
+                  <span onclick="document.getElementById('id01').style.display='none'"
+                     class="w3-button w3-display-topright">&times;</span>
+                  <h3>Search Results</h3>
+               </header>
+               <div id="demo" class="w3-container">
+                  <p>Some text..</p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- <div id="id01" class="modal fade" id="myModal" role="dialog">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Modal Header</h4>
+             </div>
+             <div id="demo" class="modal-body">
+               <p>Some text in the modal.</p>
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+             </div>
+           </div>
+         </div>
+         </div> -->
+      </div>
+      <div id="page" class="hfeed site">
+         <header>
+            <div class="header">
+               <div class="main-head-wrap inner-wrap clearfix">
+                  <div id="header-logo-image">
+                     <a href="/">
+                     <img src="{% static 'images/logo.png' %}" alt="Wisdom Pet Medicine">
+                     </a>
+                  </div>
+                  <div id="header-text" class="">
+                     <h1 id="site-title">
+                        <a href="/" title="Wisdom Pet Medicine" rel="home">Wisdom Pet Medicine</a>
+                     </h1>
+                     <p>We treat your pets like we treat our own.</p>
+                  </div>
+               </div>
+               <img src="{% static 'images/header.jpg' %}" alt="Wisdom Pet Medicine">
+            </div>
+         </header>
+      </div>
+      <div class="main-wrapper">
+         <div class="single-page clearfix">
+            <div class="inner-wrap">
+               <p>Wisdom Pet Medicine strives to blend the best in traditional and alternative medicine in the diagnosis and treatment of health conditions in companion animals, including dogs, cats, birds, reptiles, rodents, and fish. We apply the latest healthcare technology, along with the wisdom garnered in the centuries old tradition of veterinary medicine, to find the safest and most effective treatments and cures, while maintaining a caring relationship with our patients and their guardians.</p>
+               <hr>
+               <div>
+                  {% block content %}
+                  {% endblock %}
+               </div>
+            </div>
+         </div>
+      </div>
+      <footer id="colophon">
+         <div class="inner-wrap">
+            Wisdom Pet Medicine is a fictitious brand created by Lynda.com, solely for the purpose of training. All products and people associated with Wisdom Pet Medicine are also fictitious. Any resemblance to real brands, products, or people is purely coincidental. Please see your veterinarian for all matters related to your pet's health.
+         </div>
+      </footer>
+      </div>
+      <script src="{% static 'main.js' %}"></script>
+   </body>
+</html>

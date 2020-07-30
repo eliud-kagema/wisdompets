@@ -8,11 +8,15 @@ class Pet(models.Model):
     breed = models.CharField(max_length=30, blank=True)
     description = models.TextField()
     submission_date = models.DateTimeField()
-    description = models.TextField(blank=True)
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True)
     age = models.IntegerField(null=True)
     vaccinations = models.ManyToManyField('Vaccine', blank=True)
 
+    def __str__(self):
+        return self.name
 
 class Vaccine(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
